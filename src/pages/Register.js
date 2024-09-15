@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Button,
   TextField,
@@ -6,11 +6,16 @@ import {
   Box,
   Typography,
   Paper,
-  Alert,
 } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../actions/userAction';
+import MessageContext from '../contexts/MessageContext';
 
 const RegisterForm = () => {
+  const messageContext = useContext(MessageContext);
+  const { setMessage } = messageContext;
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +23,6 @@ const RegisterForm = () => {
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(undefined);
 
   const changeField = (event) => {
     const { name, value } = event.target;
@@ -92,13 +96,14 @@ const RegisterForm = () => {
 
     if (validName() && validEmail() && validPassword()) {
       registerUser({ name, email, password });
-      setSuccessMessage('User is successfully added!');
+      setMessage('User is registered successfully!');
       resetFields();
+      navigate('/login', { replace: true });
     }
   };
 
   return (
-    <Box sx={{ flexGrow: 1, marginTop: 5 }}>
+    <Box sx={{ marginTop: 5 }}>
       <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
         <form onSubmit={handleSubmit}>
           <Grid2
@@ -106,17 +111,6 @@ const RegisterForm = () => {
             justifyContent="center"
             columnSpacing={{ sm: 2, md: 2 }}
           >
-            {successMessage && (
-              <Grid2 size={{ sm: 12, md: 12 }}>
-                <Alert
-                  variant="standard"
-                  severity="success"
-                  sx={{ marginBottom: 2 }}
-                >
-                  {successMessage}
-                </Alert>
-              </Grid2>
-            )}
             <Grid2 size={{ sm: 12, md: 12 }}>
               <Typography variant="h4" align="center" gutterBottom>
                 Register
@@ -221,7 +215,7 @@ const RegisterForm = () => {
             </Grid2>
             <Grid2 size={{ sm: 12, md: 12 }}>
               <Typography variant="body2" align="center" gutterBottom>
-                Already have an account? <a href="/login">Login here</a>
+                Already have an account? <Link to="/login">Login here</Link>
               </Typography>
             </Grid2>
           </Grid2>
