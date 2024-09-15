@@ -2,7 +2,6 @@ import { v4 as uuid } from 'uuid';
 
 export const registerUser = ({ name, email, password }) => {
   const rawUsers = localStorage.getItem('users');
-
   const newUser = {
     id: uuid(),
     name,
