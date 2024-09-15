@@ -1,9 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { Header } from './Header';
 
-// Create context 
+// Create context
 export const AuthContext = createContext();
 
-// Auth provider 
+// Auth provider
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
@@ -26,6 +27,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
+      <Header />
       {children}
     </AuthContext.Provider>
   );
