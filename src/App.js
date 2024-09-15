@@ -6,19 +6,17 @@ import TodoList from './components/TodoList';
 import Login from './components/Login';
 import Register from './components/Register';
 
-const App = () => {
-  return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/todos" element={<TodoList />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
-  );
-};
+const App = () => (
+  <AuthProvider>
+    <Router>
+      <Routes>
+        {/* <Route path="/" element={<Home />} />
+        <Route path="/todos" element={<TodoList />} />
+        <Route path="/login" element={<Login />} /> */}
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
+  </AuthProvider>
+);
 
 export default App;
