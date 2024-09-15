@@ -43,3 +43,7 @@ export const login = ({ email, password }) => {
 
   return user;
 };
+
+export const logout = () => {
+  localStorage.removeItem('authUser');
+};
