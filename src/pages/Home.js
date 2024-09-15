@@ -1,123 +1,85 @@
-import React from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Container,
-  Button,
-  Grid2,
-  Card,
-  CardContent,
-  Snackbar,
-  Alert,
-  Box,
-} from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Alert, Box, Button, Grid2, Paper, Typography } from '@mui/material';
+import AddDialog from '../components/AddDialog';
+import TodoContext from '../contexts/TodoContext';
+import TodoItem from '../components/TodoItem';
 
 const Home = () => {
-  // const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  // const [snackbarMessage, setSnackbarMessage] = React.useState(
-  //   'Welcome to the Todo App!'
-  // );
+  const { message, setMessage, todos } = useContext(TodoContext);
 
-  // const handleSnackbarClose = () => {
-  //   setSnackbarOpen(false);
-  // };
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+
+  const closeAlert = () => {
+    setMessage(undefined);
+  };
+
+  const renderTodoList = () => {
+    if (!todos) {
+      return null;
+    }
+
+    return todos.map((todo) => {
+      const { title, description, status, id } = todo;
+
+      return (
+        <TodoItem
+          title={title}
+          description={description}
+          status={status}
+          id={id}
+        />
+      );
+    });
+  };
 
   return (
-    <div>Home</div>
-    // <>
-    //   {/* AppBar for Navigation */}
-    //   <AppBar position="static">
-    //     <Toolbar>
-    //       <Typography variant="h6" sx={{ flexGrow: 1 }}>
-    //         Todo App
-    //       </Typography>
-    //       <Button component={Link} to="/login" color="inherit">
-    //         Login
-    //       </Button>
-    //       <Button component={Link} to="/register" color="inherit">
-    //         Register
-    //       </Button>
-    //     </Toolbar>
-    //   </AppBar>
-
-    //   {/* Hero Section */}
-    //   <Box
-    //     sx={{
-    //       backgroundColor: '#f5f5f5',
-    //       py: 8,
-    //       textAlign: 'center',
-    //     }}
-    //   >
-    //     <Container maxWidth="md">
-    //       <Typography variant="h2" gutterBottom>
-    //         Welcome to Your Todo App
-    //       </Typography>
-    //       <Button
-    //         component={Link}
-    //         to="/todos"
-    //         variant="contained"
-    //         color="primary"
-    //         size="large"
-    //         onClick={() => setSnackbarOpen(true)}
-    //       >
-    //         Get Started
-    //       </Button>
-    //     </Container>
-    //   </Box>
-
-    //   {/* Feature Section with Cards */}
-    //   <Container maxWidth="lg" sx={{ py: 8 }}>
-    //     <Grid2 container spacing={4}>
-    //       <Grid2 item xs={12} sm={6} md={4}>
-    //         <Card
-    //           sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-    //         >
-    //           <CardContent>
-    //             <Typography gutterBottom variant="h5">
-    //               Manage Todos
-    //             </Typography>
-    //             <Typography>
-    //               Easily add, edit, and delete your tasks. 
-    //             </Typography>
-    //           </CardContent>
-    //         </Card>
-    //       </Grid2>
-    //     </Grid2>
-    //   </Container>
-
-    //   {/* Footer */}
-    //   <Box
-    //     sx={{
-    //       py: 4,
-    //       backgroundColor: '#1976d2',
-    //       color: 'white',
-    //       textAlign: 'center',
-    //     }}
-    //   >
-    //     <Container maxWidth="md">
-    //       <Typography variant="body1">
-    //         &copy; 2024 Todo App. All Rights Reserved.
-    //       </Typography>
-    //     </Container>
-    //   </Box>
-
-    //   {/* Snackbar for feedback */}
-    //   <Snackbar
-    //     open={snackbarOpen}
-    //     autoHideDuration={3000}
-    //     onClose={handleSnackbarClose}
-    //   >
-    //     <Alert
-    //       onClose={handleSnackbarClose}
-    //       severity="success"
-    //       sx={{ width: '100%' }}
-    //     >
-    //       {snackbarMessage}
-    //     </Alert>
-    //   </Snackbar>
-    // </>
+    <>
+      <Box sx={{ marginTop: 5 }}>
+        <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
+          <Grid2
+            container
+            justifyContent="center"
+            columnSpacing={{ sm: 2, md: 2 }}
+          >
+            {message && (
+              <Grid2 size={{ sm: 12, md: 12 }}>
+                <Alert
+                  severity="success"
+                  variant="standard"
+                  onClose={closeAlert}
+                  sx={{ marginBottom: 2 }}
+                >
+                  {message}
+                </Alert>
+              </Grid2>
+            )}
+            <Grid2 size={{ sm: 12, md: 12 }}>
+              <Typography variant="h4" align="center" gutterBottom>
+                Todo List
+              </Typography>
+            </Grid2>
+            <Grid2
+              size={{ sm: 12, md: 12 }}
+              container
+              justifyContent="flex-end"
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ marginBottom: 2 }}
+                onClick={() => setOpenAddDialog(true)}
+              >
+                Add Todo
+              </Button>
+            </Grid2>
+            <Grid2 size={{ sm: 12, md: 12 }} container justifyContent="center">
+              {renderTodoList()}
+            </Grid2>
+          </Grid2>
+        </Paper>
+      </Box>
+      <AddDialog open={openAddDialog} setOpen={setOpenAddDialog} />
+    </>
   );
 };
 

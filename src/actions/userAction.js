@@ -2,7 +2,6 @@ import { v4 as uuid } from 'uuid';
 
 export const registerUser = ({ name, email, password }) => {
   const rawUsers = localStorage.getItem('users');
-
   const newUser = {
     id: uuid(),
     name,
@@ -42,4 +41,8 @@ export const login = ({ email, password }) => {
   localStorage.setItem('authUser', JSON.stringify(user));
 
   return user;
+};
+
+export const logout = () => {
+  localStorage.removeItem('authUser');
 };

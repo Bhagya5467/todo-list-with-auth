@@ -11,16 +11,16 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const { pathname } = window.location;
-    const authUser = localStorage.getItem('authUser');
+    const lsAuthUser = localStorage.getItem('authUser');
 
-    setAuthUser(authUser);
+    setAuthUser(lsAuthUser);
 
-    if (!['/login', '/register'].includes(pathname) && !authUser) {
+    if (!['/login', '/register'].includes(pathname) && !lsAuthUser) {
       window.location.replace('/login');
-    } else if (['/login', '/register'].includes(pathname) && authUser) {
+    } else if (['/login', '/register'].includes(pathname) && lsAuthUser) {
       window.location.replace('/');
     }
-  }, [window.location.pathname]);
+  }, [authUser, window.location.pathname]);
 
   return (
     <AuthContext.Provider value={{ authUser, setAuthUser }}>

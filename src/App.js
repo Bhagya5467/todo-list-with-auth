@@ -5,14 +5,21 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import { MessageProvider } from './contexts/MessageContext';
+import { TodoProvider } from './contexts/TodoContext';
 
 const App = () => (
   <AuthProvider>
     <MessageProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          {/* <Route path="/todos" element={<TodoList />} /> */}
+          <Route
+            path="/"
+            element={
+              <TodoProvider>
+                <Home />
+              </TodoProvider>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
