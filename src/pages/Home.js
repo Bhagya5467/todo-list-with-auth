@@ -32,11 +32,12 @@ const Home = () => {
       return null;
     }
 
-    return todos.map((todo) => {
+    return todos.map((todo, index) => {
       const { title, description, status, id } = todo;
 
       return (
         <TodoItem
+          key={index}
           title={title}
           description={description}
           status={status}

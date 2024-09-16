@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import {
   Card,
   CardActions,
@@ -6,10 +7,31 @@ import {
   Typography,
   Button,
 } from '@mui/material';
+import {
+  changeTodoStatus,
+  deleteTodo as deleteFromStorage,
+} from '../actions/todoAction';
+import TodoContext from '../contexts/TodoContext';
 
 const TodoItem = ({ title, description, status, setId, id }) => {
+  const { setTodos } = useContext(TodoContext);
+
   const editTodo = () => {
     setId(id);
+  };
+
+  const changeStatus = () => {
+    let updatedStatus = 'COMPLETED';
+
+    if (status === 'COMPLETED') {
+      updatedStatus = 'NOT_COMPLETED';
+    }
+
+    changeTodoStatus({ id, status: updatedStatus, setTodos });
+  };
+
+  const deleteTodo = () => {
+    deleteFromStorage({ id, setTodos });
   };
 
   return (
@@ -31,6 +53,7 @@ const TodoItem = ({ title, description, status, setId, id }) => {
               variant="outlined"
               color="error"
               sx={{ marginBottom: 1, marginRight: 1 }}
+              onClick={deleteTodo}
             >
               Delete
             </Button>
@@ -43,11 +66,12 @@ const TodoItem = ({ title, description, status, setId, id }) => {
               Edit
             </Button>
             <Button
-              variant="outlined"
+              variant={status === 'COMPLETED' ? 'contained' : 'outlined'}
               color={status === 'COMPLETED' ? 'inherit' : 'success'}
               sx={{ marginBottom: 1 }}
+              onClick={changeStatus}
             >
-              {status === 'COMPLETED' ? 'Completed' : 'Complete'}
+              {status === 'COMPLETED' ? 'Completed' : 'Not Complete'}
             </Button>
           </Grid2>
         </CardActions>

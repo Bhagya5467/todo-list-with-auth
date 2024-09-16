@@ -15,7 +15,7 @@ export const addTodo = ({ title, description }) => {
   } else {
     const todos = JSON.parse(rawTodos);
 
-    todos.push(newTodo);
+    todos.unshift(newTodo);
     localStorage.setItem('todos', JSON.stringify(todos));
   }
 
@@ -51,7 +51,7 @@ export const getTodo = (id) => {
   return filteredTodo;
 };
 
-export const completeTodo = ({ id }) => {
+export const changeTodoStatus = ({ id, status, setTodos }) => {
   const rawTodos = localStorage.getItem('todos');
 
   if (!rawTodos) {
@@ -61,7 +61,8 @@ export const completeTodo = ({ id }) => {
   const todos = JSON.parse(rawTodos);
   const filteredTodo = todos.find((todo) => todo.id === id);
 
-  filteredTodo.status = 'COMPLETED';
+  filteredTodo.status = status;
+  setTodos(todos);
 
   localStorage.setItem('todos', JSON.stringify(todos));
 
@@ -88,4 +89,20 @@ export const updateTodo = ({ title, description, id }) => {
   localStorage.setItem('todos', JSON.stringify(todos));
 
   return filteredTodo;
+};
+
+export const deleteTodo = ({ id, setTodos }) => {
+  const rawTodos = localStorage.getItem('todos');
+
+  if (!rawTodos) {
+    throw new Error('Todos are not exists');
+  }
+
+  const todos = JSON.parse(rawTodos);
+  const filteredTodos = todos.filter((todo) => todo.id !== id);
+
+  localStorage.setItem('todos', JSON.stringify(filteredTodos));
+  setTodos(filteredTodos);
+
+  return filteredTodos;
 };

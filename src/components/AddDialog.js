@@ -142,6 +142,14 @@ const AddDialog = ({ open, setOpen }) => {
           >
             Add
           </Button>
+          <Button
+            variant="contained"
+            color="error"
+            sx={{ marginBottom: 1, marginRight: 2 }}
+            onClick={handleClose}
+          >
+            Close
+          </Button>
         </DialogActions>
       </form>
     </Dialog>
