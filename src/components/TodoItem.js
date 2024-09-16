@@ -7,58 +7,48 @@ import {
   Button,
 } from '@mui/material';
 
-const TodoItem = ({ title, description, status }) => {
+const TodoItem = ({ title, description, status, setId, id }) => {
+  const editTodo = () => {
+    setId(id);
+  };
+
   return (
     <Grid2 size={{ sm: 12, md: 12 }}>
-      <Card>
+      <Card sx={{ marginBottom: 1 }}>
         <CardContent>
           <Typography
+            variant="h4"
             gutterBottom
-            sx={{ color: 'text.secondary', fontSize: 14 }}
+            sx={{ color: 'text.secondary' }}
           >
             {title}
           </Typography>
-          <Typography variant="h5" component="div">
-            {description}
-          </Typography>
+          <Typography component="div">{description}</Typography>
         </CardContent>
         <CardActions>
-          <Grid2
-            container
-            justifyContent="space-between"
-            size={{ sm: 12, md: 12 }}
-            columnSpacing={2}
-          >
-            <Grid2 size={{ sm: 4, md: 4 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="error"
-                sx={{ marginBottom: 1 }}
-              >
-                Delete
-              </Button>
-            </Grid2>
-            <Grid2 size={{ sm: 4, md: 4 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                sx={{ marginBottom: 1 }}
-              >
-                Edit
-              </Button>
-            </Grid2>
-            <Grid2 size={{ sm: 4, md: 4 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                color={status === 'COMPLETED' ? 'inherit' : 'success'}
-                sx={{ marginBottom: 1 }}
-              >
-                {status === 'COMPLETED' ? 'Completed' : 'Complete'}
-              </Button>
-            </Grid2>
+          <Grid2 size={{ sm: 12, md: 12 }} container justifyContent="flex-end">
+            <Button
+              variant="outlined"
+              color="error"
+              sx={{ marginBottom: 1, marginRight: 1 }}
+            >
+              Delete
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              sx={{ marginBottom: 1, marginRight: 1 }}
+              onClick={editTodo}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="outlined"
+              color={status === 'COMPLETED' ? 'inherit' : 'success'}
+              sx={{ marginBottom: 1 }}
+            >
+              {status === 'COMPLETED' ? 'Completed' : 'Complete'}
+            </Button>
           </Grid2>
         </CardActions>
       </Card>

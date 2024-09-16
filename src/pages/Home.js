@@ -3,11 +3,25 @@ import { Alert, Box, Button, Grid2, Paper, Typography } from '@mui/material';
 import AddDialog from '../components/AddDialog';
 import TodoContext from '../contexts/TodoContext';
 import TodoItem from '../components/TodoItem';
+import EditDialog from '../components/EditDialog';
 
 const Home = () => {
-  const { message, setMessage, todos } = useContext(TodoContext);
+  const { message, setMessage, todos: contextTodos } = useContext(TodoContext);
 
   const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [selectedId, setSelectedId] = useState(undefined);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    setTodos(contextTodos);
+  }, [contextTodos]);
+
+  useEffect(() => {
+    if (selectedId) {
+      setOpenEditDialog(true);
+    }
+  }, [selectedId]);
 
   const closeAlert = () => {
     setMessage(undefined);
@@ -27,6 +41,7 @@ const Home = () => {
           description={description}
           status={status}
           id={id}
+          setId={setSelectedId}
         />
       );
     });
@@ -79,6 +94,12 @@ const Home = () => {
         </Paper>
       </Box>
       <AddDialog open={openAddDialog} setOpen={setOpenAddDialog} />
+      <EditDialog
+        open={openEditDialog}
+        setOpen={setOpenEditDialog}
+        todoId={selectedId}
+        setTodoId={setSelectedId}
+      />
     </>
   );
 };
