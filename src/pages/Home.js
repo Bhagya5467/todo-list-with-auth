@@ -29,7 +29,7 @@ const Home = () => {
 
   const renderTodoList = () => {
     if (!todos) {
-      return null;
+      return [];
     }
 
     return todos.map((todo, index) => {
